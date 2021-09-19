@@ -185,7 +185,6 @@ class ListItem extends Component {
         })
         if (this.state.isSearch){
             this.handleSearch('')
-            console.log('hi');
         }
     };
     
