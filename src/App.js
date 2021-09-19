@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ListItem from './ListItem';
 import Form from './Form';
-
 import Items from './mockdata/Items'; 
 
 class App extends Component {
@@ -18,7 +17,7 @@ class App extends Component {
             addItemDate: new Date()
         }
     }
-    
+    // hàm xử lý khi click add new task
     addItem = () => {
         let {addItemName, addItemDesc, addItemLevel, addItemDate} = this.state
         if((Items.some((item) => {return item.name === this.state.addItemName})) || this.state.addItemName === '') {
@@ -40,27 +39,34 @@ class App extends Component {
             })
         }
     };
-    
+
+    // hàm xử lý điền tên
     handleAddName = (value) => {
         this.setState({
             addItemName: value
         })
-    }
+    };
+
+    // hàm xử lý điền mô tả
     handleAddDesc = (value) => {
         this.setState({
             addItemDesc: value
         })
-    }
+    };
+
+    // hàm xử lý chọn level
     handleAddLevel = (value) => {
         this.setState({
             addItemLevel: value
         })
-    }
+    };
+
+    // hàm xử lý chọn ngày
     handleAddDate = (value) => {
         this.setState({
             addItemDate: value
         })
-    }
+    };
     
     render() {
         return (

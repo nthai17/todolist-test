@@ -10,14 +10,14 @@ class Item extends Component {
             startDate: new Date()
         }
     };
-
+    // hàm click gián tiếp calendar
     openCalendar = ()=>{
         var calendarBox = document.querySelector('.list-task .react-datepicker-wrapper input')
         calendarBox.click()
     };
 
     render() {
-        let {item, nameEdit, descEdit, dateEdit, addItem, levelEdit,
+        let {item, nameEdit, descEdit, dateEdit, levelEdit,
             handleEditNameChange, handleEditDescChange, handleEditDateChange, handleEditSelectChange,
             handleEdit, deleteItem, handleEditClickSubmit, handleCancelEdit, showBulkActionBox} = this.props;
         let classNameItem = '';
@@ -60,7 +60,7 @@ class Item extends Component {
                 </div>
                 {(this.props.idEdit === item.id) 
                 ? 
-                <form className="form-box" onSubmit={()=>addItem()}>
+                <form className="form-box">
                     <div className="form-group new-name-task">
                         <input type="text" value={nameEdit} 
                             onChange={(event) => handleEditNameChange(event.target.value)}/>
@@ -89,7 +89,7 @@ class Item extends Component {
                             <select className="new-select-task" value={levelEdit}
                                 onChange={(event) => handleEditSelectChange(event.target.value)}>
                                 <option value="0">Low</option>
-                                <option value="1">Nomal</option>
+                                <option value="1">Normal</option>
                                 <option value="2">High</option>
                             </select>
                         </div>

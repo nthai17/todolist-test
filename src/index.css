@@ -107,10 +107,10 @@ margin-left: 12px;
 }
 
 option[value='0']{
-  background-color: moccasin;
+  background-color: rgb(166, 250, 87);
 }
 option[value='1']{
-  background-color: rgb(252, 176, 115);
+  background-color: rgb(250, 247, 93);
 }
 option[value='2']{
   background-color: rgb(245, 102, 83);

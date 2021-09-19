@@ -21,6 +21,7 @@ class ListItem extends Component {
         }
     };
 
+    // hàm render task
     renderItem = () => {
         let {items, isSearch, itemsSearch, idEdit, levelEdit, nameEdit, descEdit, dateEdit} = this.state;
         if(isSearch) {
@@ -50,13 +51,15 @@ class ListItem extends Component {
             )
         })
     };
-
+    
+    // hàm hiển thị bulk action box
     showBulkActionBox = () =>{
         this.setState({
             isOpen: true
         })
     };
 
+    // hàm checked all task
     handleCheckAll =()=>{
         let listCheckbox = document.querySelectorAll('.task-info input[type="checkbox"]')
         for (var checkbox of listCheckbox) {
@@ -65,7 +68,8 @@ class ListItem extends Component {
             }
         }
     };
-   
+
+    // Xử lý xóa các task checked
     deleteItemAll =()=>{
         let {items} = this.state;
         let listCheckbox = document.querySelectorAll('.task-info input[type="checkbox"]:checked')
@@ -86,7 +90,8 @@ class ListItem extends Component {
             }
         }
     };
-           
+
+    // xử lý khi điền tìm kiếm theo task name
     handleSearch = (value) => {
         let {items} = this.state;
         let itemsSearch = [...items]
@@ -107,12 +112,14 @@ class ListItem extends Component {
         })
     };
 
+    // hàm đóng form edit task
     handleCancelEdit = () => {
         this.setState({
             idEdit: ''
         })
     };
 
+    // hàm mở form edit task
     handleEdit = (itemIsEdit) => {
         this.setState({
             idEdit : itemIsEdit.id,
@@ -123,30 +130,35 @@ class ListItem extends Component {
         })
     };
 
+    // hàm xử lý khi sửa task name
     handleEditNameChange = (value) => {
         this.setState({
             nameEdit: value
         })
     };
 
+    // hàm xử lý khi sửa mô tả
     handleEditDescChange = (value) => {
         this.setState({
             descEdit: value
         })
     };
 
+    // hàm xử lý khi sửa ngày
     handleEditDateChange = (value) => {
         this.setState({
             dateEdit: value
         })
     };
 
+    // hàm xử lý khi sửa level
     handleEditSelectChange = (value) => {
         this.setState({
             levelEdit: value
         })
     };
 
+    // hàm thay đổi nội dung task khi click save
     handleEditClickSubmit = () => {
         let {nameEdit, idEdit, descEdit, levelEdit, dateEdit} = this.state;
         if (Items.length > 0) {
@@ -169,7 +181,7 @@ class ListItem extends Component {
         }
     };
    
-    
+    // hàm xóa item
     deleteItem = (itemIsDel) => {
         var {items} = this.state;
         if (items.length > 0) {

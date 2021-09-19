@@ -10,7 +10,7 @@ class Form extends Component {
             startDate: new Date()
         }
     };
-
+    // hàm click gián tiếp calendar
     openCalendar = ()=>{
         let calendarBox = document.querySelector('.add-form .react-datepicker-wrapper input')
         calendarBox.click()
