@@ -4,13 +4,12 @@ class Search extends Component {
     render(){
         return(
             <div className="search-box">
-                <input type="text" className="form-control" placeholder="Search item name" 
+                <input type="text" placeholder="Search task name" 
                 value={this.props.searchValue}
                 onChange={(event) => this.props.handleSearch(event.target.value)}/>
-                <span className="input-group-btn">
-                     <button className="btn btn-info" type="button"
-                     onClick={() => this.props.handleSearch('')}>Clear</button>
-                </span>
+                <button className="btn btn-clear-search" type="button"
+                     onClick={() => this.props.handleSearch('')}>Clear
+                </button>
             </div>
         )
     }
