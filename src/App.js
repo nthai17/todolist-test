@@ -1,45 +1,56 @@
 import React, { Component } from 'react';
 import ListItem from './ListItem';
 import Form from './Form';
-import Items from './mockdata/Items'; 
 
 class App extends Component {
     constructor(props) {    
         super(props);
         this.state = {
-            showForm: false,
             addItemName: '',
             addItemDesc: '',
             addItemLevel: '0',
-            sortType: '',
-            sortOder: '',
-            items: Items,
-            addItemDate: new Date()
+            items: [],
+            addItemDate: new Date(),
         }
+    };
+    
+    async componentDidMount(){
+        await fetch('https://61484f11035b3600175b9d81.mockapi.io/tasks')
+        .then(res=>res.json())
+        .then((data)=>{
+            // parse date từ String sang Date
+            data.forEach((task)=>{
+                return task.date = new Date(task.date)
+            })
+            this.setState({items: data})
+        })
     }
+
     // hàm xử lý khi click add new task
     addItem = () => {
-        let {addItemName, addItemDesc, addItemLevel, addItemDate} = this.state
-        if((Items.some((item) => {return item.name === this.state.addItemName})) || this.state.addItemName === '') {
+        let {addItemName, addItemDesc, addItemLevel, addItemDate, items} = this.state
+        if((items.some((item) => {return item.name === this.state.addItemName})) || this.state.addItemName === '') {
             alert('Task name không được bỏ trống hoặc trùng');
         } else {
             let newItem = {
-                id: (Items.length + 1).toString(),
+                id: (items.length + 1).toString(),
                 name: addItemName,
                 desc: addItemDesc,
                 level: addItemLevel,
                 date: addItemDate
             }
-            Items.push(newItem);
+            items.push(newItem);
             this.setState({
+                items: items,
                 addItemName: '',
                 addItemDesc: '',
                 addItemLevel: '0',
-                addItemDate: new Date()
+                addItemDate: new Date(),
             })
         }
     };
-
+    
+    
     // hàm xử lý điền tên
     handleAddName = (value) => {
         this.setState({
@@ -84,7 +95,7 @@ class App extends Component {
                         addItemDate={this.state.addItemDate}
                     />
                 </div>
-                <ListItem/>     
+                <ListItem items={this.state.items}/>
             </div>
         );
     }

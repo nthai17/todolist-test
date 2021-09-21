@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Items from './mockdata/Items'
 import Item from './Item';
 import Search from './Search';
 import BulkActionBox from './BulkBox';
@@ -8,7 +7,6 @@ class ListItem extends Component {
     constructor(props){
         super(props);
         this.state = {
-            items: Items,
             idEdit: '',
             nameEdit: '',
             levelEdit: '',
@@ -22,8 +20,8 @@ class ListItem extends Component {
     };
 
     // hàm render task
-    renderItem = () => {
-        let {items, isSearch, itemsSearch, idEdit, levelEdit, nameEdit, descEdit, dateEdit} = this.state;
+    renderItem = (items) => {
+        let {isSearch, itemsSearch, idEdit, levelEdit, nameEdit, descEdit, dateEdit} = this.state;
         if(isSearch) {
             items = itemsSearch;
         }
@@ -39,7 +37,7 @@ class ListItem extends Component {
                 descEdit={descEdit}
                 dateEdit={dateEdit}
                 handleEdit={this.handleEdit}
-                deleteItem={this.deleteItem} 
+                handleDeleteItem={this.handleDeleteItem} 
                 handleEditClickSubmit={this.handleEditClickSubmit}
                 handleCancelEdit={this.handleCancelEdit}
                 handleEditNameChange={this.handleEditNameChange}
@@ -71,7 +69,7 @@ class ListItem extends Component {
 
     // Xử lý xóa các task checked
     deleteItemAll =()=>{
-        let {items} = this.state;
+        let {items} = this.props
         let listCheckbox = document.querySelectorAll('.task-info input[type="checkbox"]:checked')
         for (let checkbox of listCheckbox) {
             let nameOfTaskChecked = checkbox.parentElement.nextElementSibling.textContent
@@ -80,6 +78,10 @@ class ListItem extends Component {
                         items.splice(i, 1)
                 }
             }
+            // xử lý cập nhật id các task sau khi xóa 1 task
+            items.map((item, index) => {
+                return item.id = (index + 1).toString();
+            })
             this.setState({
                 items: items,
                 isOpen: false
@@ -93,8 +95,7 @@ class ListItem extends Component {
 
     // xử lý khi điền tìm kiếm theo task name
     handleSearch = (value) => {
-        let {items} = this.state;
-        let itemsSearch = [...items]
+        let itemsSearch = [...this.props.items]
         let newItems = [];
         if (value.length <= 0) {
             this.setState({isSearch:false})
@@ -108,7 +109,7 @@ class ListItem extends Component {
         }
         this.setState({
             itemsSearch: newItems,
-            searchValue: value
+            searchValue: value,
         })
     };
 
@@ -118,7 +119,6 @@ class ListItem extends Component {
             idEdit: ''
         })
     };
-
     // hàm mở form edit task
     handleEdit = (itemIsEdit) => {
         this.setState({
@@ -161,16 +161,17 @@ class ListItem extends Component {
     // hàm thay đổi nội dung task khi click save
     handleEditClickSubmit = () => {
         let {nameEdit, idEdit, descEdit, levelEdit, dateEdit} = this.state;
-        if (Items.length > 0) {
-            if((Items.some((item) => {return ((item.name === nameEdit) && item.id !== idEdit)})) || nameEdit === '') {
+        let {items} = this.props;
+        if (items.length > 0) {
+            if((items.some((item) => {return ((item.name === nameEdit) && item.id !== idEdit)})) || nameEdit === '') {
                 alert('Task name không được bỏ trống hoặc trùng');
             } else {
-                for (let i = 0; i < Items.length; i++) {
-                    if (Items[i].id === idEdit) {
-                        Items[i].name = nameEdit;
-                        Items[i].desc = descEdit;
-                        Items[i].level = levelEdit;
-                        Items[i].date = dateEdit;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].id === idEdit) {
+                        items[i].name = nameEdit;
+                        items[i].desc = descEdit;
+                        items[i].level = levelEdit;
+                        items[i].date = dateEdit;
                         break;
                     }
                 }
@@ -182,8 +183,8 @@ class ListItem extends Component {
     };
    
     // hàm xóa item
-    deleteItem = (itemIsDel) => {
-        var {items} = this.state;
+    handleDeleteItem = (itemIsDel) => {
+        let {items} = this.props
         if (items.length > 0) {
             for (let i = 0; i < items.length; i++){
                 if (items[i].id === itemIsDel.id) {
@@ -191,6 +192,10 @@ class ListItem extends Component {
                     break;
                 }
             }
+            // xử lý cập nhật id các task sau khi xóa 1 task
+            items.map((item, index) => {
+                return item.id = (index + 1).toString();
+            })
         }
         this.setState({
             items: items
@@ -201,12 +206,13 @@ class ListItem extends Component {
     };
     
     render() {
+        let {items} = this.props
         return(
             <div className="list-task col-lg-6">
                 <div>
                     <h2>List Item</h2>
                     <Search handleSearch={this.handleSearch} searchValue={this.state.searchValue}/>
-                    {this.renderItem()}
+                    {this.renderItem(items)}
                 </div>
                 <BulkActionBox 
                     isOpen={this.state.isOpen}

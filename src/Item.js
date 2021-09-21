@@ -19,7 +19,7 @@ class Item extends Component {
     render() {
         let {item, nameEdit, descEdit, dateEdit, levelEdit,
             handleEditNameChange, handleEditDescChange, handleEditDateChange, handleEditSelectChange,
-            handleEdit, deleteItem, handleEditClickSubmit, handleCancelEdit, showBulkActionBox} = this.props;
+            handleEdit, handleDeleteItem, handleEditClickSubmit, handleCancelEdit, showBulkActionBox} = this.props;
         let classNameItem = '';
         switch (item.level) {
             case '0':
@@ -39,8 +39,9 @@ class Item extends Component {
                 </div>
             )
         }
+        let idOfItem = 'item' + item.id;
         return(
-            <div className="task-item">
+            <div className="task-item" id={idOfItem}>
                 <div className={classNameItem}>
                     <div>
                         <label>
@@ -54,7 +55,7 @@ class Item extends Component {
                         onClick={() => handleEdit(item)} >Edit
                         </button>
                         <button type="button" className="btn btn-danger" 
-                        onClick={() => deleteItem(item)}>Delete
+                        onClick={() => handleDeleteItem(item)}>Delete
                         </button>
                     </div>
                 </div>
